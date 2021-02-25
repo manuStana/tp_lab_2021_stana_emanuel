@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+//Am facut o cautare binara si una liniara si am verificat cat dureaza fiecare pentru un array sortat
+
+void binarySearch(int arr[], int li, int ls, int x) {
+	int mid = (li + ls) / 2;
+	while (arr[mid] != x && mid) {
+		if (arr[mid] > x) {
+			ls = mid;
+			mid = (li + ls) / 2;
+		}
+		else 
+			if (arr[mid] < x) {
+				li = mid;
+				mid = (li + ls) / 2;
+			}
+	}
+	if (arr[mid] == x)
+		printf("Am gasit pe x pe pozitia %d\n", mid);
+	else
+		printf("Elementul cautat nu se afla in lista\n");
+}
+void linearSearch(int arr[], int size, int x) {
+	char found = '0';
+	for (int i = 0; i < size; i++)
+		if (arr[i] == x) {
+			found = '1';
+			printf("Am gasit elementul cautat se afla pe pozitia %d\n", i);
+			break;
+		}
+	if (found == '0')
+		printf("Elementul cautat nu se afla in lista\n");
+}
+int main() {
+	int size, *arr = NULL, x;
+	printf("Dimensiunea listei = ");
+	scanf(" %d", &size);
+	arr = (int*)malloc(size * sizeof(int));
+	for (int i = 0; i < size; i++) {
+		arr[i] = i + 1;
+		//am facut array-ul in acest fel pentru a fi mai usor de facut o lista cu multe numere
+		//la care diferenta de timp este vizibila
+	}
+	printf("Numarul cautat = ");
+	scanf(" %d", &x);
+
+	//binary search
+	printf("\nBinary search : \n");
+	clock_t start = clock();
+	binarySearch(arr, 0, size - 1, x);
+	clock_t end = clock();
+	printf("Timp scurs : %fs\n\n\n", (double)(end - start) / CLOCKS_PER_SEC);
+
+	//linear search
+	printf("Linear search :\n");
+	clock_t start1 = clock();
+	linearSearch(arr, size, x);
+	clock_t end1 = clock();
+	printf("Timp scurs : %fs\n", (double)(end1 - start1) / CLOCKS_PER_SEC);
+}
