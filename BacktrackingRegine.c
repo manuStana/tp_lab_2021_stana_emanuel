@@ -2,15 +2,26 @@
 #include <stdlib.h>
 #include <math.h>
 
-int v[100], k, n, results = 0;
+int *v, k, n, results = 0;
 
 void print() {
-	for (int i = 1; i <= n; i++) {
-		for (int j = 1; j <= n; j++) {
-			if (j == v[i])
-				printf("R ");
+	for (int i = 1; i <= n + 1; i++) {
+		for (int j = 1; j <= n + 1; j++) {
+			if (i == 1 && j == 1)
+				printf("  ");
 			else
-				printf("x ");
+				if (i == 1)
+					printf("%d ", j - 1);
+				else
+					if (j == 1)
+						printf("%d ", i - 1);
+				else
+					if (i != 1 && j != 1) {
+						if (j - 1 == v[i - 1])
+							printf("R ");
+						else
+							printf("x ");
+					}
 		}
 		printf("\n");
 	}
@@ -62,5 +73,6 @@ void back(int k) {
 void main() {
 	printf("n = ");
 	scanf(" %d", &n);
+	v = (int*)malloc(n * sizeof(int));
 	back(1);
 }
